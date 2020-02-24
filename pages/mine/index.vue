@@ -1,0 +1,99 @@
+<template>
+  <view>
+    <cu-custom bg-color="bg-blue">
+      <block slot="content">我</block>
+    </cu-custom>
+    <scroll-view scroll-y class="scrollPage">
+      <view class="radius shadow-warp bg-white">
+        <view class="cu-list menu">
+
+          <view v-if="userInfo" class="cu-item arrow margin-top margin-bottom" @tap="toEditSelf">
+
+            <view class="content flex align-center justify-between">
+              <view class="content-left">
+                <view>
+                  <view class="flex align-center" @tap="toEditSelf">
+                    <view class="cu-avatar xl round" :style="'background-image:url('+userInfo.avatar+')'">
+                    </view>
+                    <view class="base-info margin-left">
+                      <view>
+                        <text class="text-bold">{{userInfo.username}}</text>
+                      </view>
+                      <text>{{userInfo.username}}</text>
+                    </view>
+                  </view>
+                  <view class="flex margin-top">
+                    <view class="margin-left">
+                      <text class="margin-sm">粉丝</text>
+                      <text>12</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <text class="cuIcon-qr_code xl text-grey"></text>
+            </view>
+          </view>
+          <navigator v-else class="cu-item arrow margin-top margin-bottom" url="/pages/login/index">
+            <view class="login-wrap flex align-center">
+              <view>
+                <text class="text-bold text-lg">登录/注册</text>
+              </view>
+            </view>
+          </navigator>
+        </view>
+      </view>
+      <view>
+        <view class="cu-list menu margin-top">
+          <view class="cu-item arrow">
+            <view class="content">
+              <text class="cuIcon-goodsfill text-green"></text>
+              <text class="text-grey">帮助和反馈</text>
+            </view>
+          </view>
+          <view class="cu-item arrow">
+            <view class="content">
+              <text class="cuIcon-goodsfill text-green"></text>
+              <text class="text-grey">联系客服</text>
+            </view>
+          </view>
+        </view>
+        <view class="cu-list menu margin-top" @tap="logout">
+          <view class="cu-item arrow">
+            <view class="content">
+              <text class="cuIcon-exit text-grey"></text>
+              <text class="text-grey">退出</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  export default {
+    name: "mine",
+    data() {
+      return {
+        userInfo: uni.getStorageSync('userInfo')
+      }
+    },
+    methods: {
+      logout() {
+        uni.removeStorageSync('userInfo')
+        uni.redirectTo({
+          url: '/pages/login/index'
+        })
+      },
+      toEditSelf() {
+        uni.navigateTo({
+          url: '/pages/mine/editSelf'
+        })
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>
