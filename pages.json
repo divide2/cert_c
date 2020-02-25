@@ -6,6 +6,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/home/cities",
+			"style": {}
+		},
+		{
 			"path": "pages/login/index",
 			"style": {}
 		},
@@ -18,11 +22,19 @@
 			"style": {}
 		},
 		{
+			"path": "pages/login/retrieveInfo",
+			"style": {}
+		},
+		{
 			"path": "pages/login/newPwd",
 			"style": {}
 		},
 		{
 			"path": "pages/mine/editSelf",
+			"style": {}
+		},
+		{
+			"path": "pages/discover/article",
 			"style": {}
 		},
 		/*course */

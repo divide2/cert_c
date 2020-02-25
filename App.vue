@@ -1,5 +1,6 @@
 <script>
 	import Vue from 'vue'
+  import api from '@/api/api'
 	export default {
 		onLaunch: function() {
 			uni.getSystemInfo({
@@ -26,7 +27,17 @@
 					// #endif
 				}
 			})
-
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          const latitude = res.latitude
+          const longitude = res.longitude
+          api.get('/v1/address/city/resolve', { latitude: latitude, longitude: longitude }).then(res => {
+            wx.setStorageSync('curCity', res.city)
+            wx.setStorageSync('originCity', res.city);
+          })
+        }
+      })
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',

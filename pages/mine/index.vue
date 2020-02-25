@@ -17,14 +17,14 @@
                     </view>
                     <view class="base-info margin-left">
                       <view>
-                        <text class="text-bold">{{userInfo.username}}</text>
+                        <text class="text-bold">{{userInfo.nickname}}</text>
                       </view>
                       <text>{{userInfo.username}}</text>
                     </view>
                   </view>
                   <view class="flex margin-top">
                     <view class="margin-left">
-                      <text class="margin-sm">粉丝</text>
+                      <text class="margin-sm">关注</text>
                       <text>12</text>
                     </view>
                   </view>
@@ -82,7 +82,7 @@
       logout() {
         uni.removeStorageSync('userInfo')
         uni.redirectTo({
-          url: '/pages/login/index'
+          url: '/pages/index/index?pageCur=mine'
         })
       },
       toEditSelf() {

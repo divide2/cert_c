@@ -6,7 +6,7 @@
     <form ref="form">
       <view class="cu-form-group">
         <view class="title">手机号</view>
-        <input placeholder="请输入手机号" v-model="info.username"/>
+        <input placeholder="请输入手机号" v-model="info.phoneNumber"/>
       </view>
       <view class="cu-form-group" prop="verifyCode">
         <view class="title">验证码</view>
@@ -30,6 +30,7 @@
   import api from '@/api/api'
   import utils from "../../components/form/utils";
 
+  let timer
   export default {
     name: "login",
     data() {
@@ -56,14 +57,6 @@
             {required: true, message: '请填写验证码'},
             {len: 6, message: '请输入6位数验证码'}]
         }
-      }
-    },
-    mounted() {
-      this.$refs.form.setRules(this.rules)
-      if (uni.getStorageSync('userInfo')) {
-        uni.redirectTo({
-          url: '/pages/index/index'
-        })
       }
     },
     methods: {
@@ -98,22 +91,33 @@
       login() {
         utils.validate(this.info, this.rules, (res, errors) => {
           if (res) {
-            api.post('/v1/login/org', this.info).then(res => {
-              uni.setStorageSync('accessToken', res.accessToken)
-              api.get('/v1/user').then(data => {
-                uni.setStorageSync('userInfo', data)
-                //登录成功后跳转
+            api.post('/v1/login/phone', this.info)
+              .then(res => {
+                // 如果拥有信息直接保存token跳转去个人信息
+                if (res.hasInfo) {
+                  uni.setStorageSync('accessToken', res.accessToken);
+                  api.get('/v1/user').then(data => {
+                    uni.setStorageSync('userInfo', data)
+                    //登录成功后跳转
+                    uni.showToast({
+                      title: '登录成功',
+                    })
+                    uni.redirectTo({url: '/pages/index/index?curPage=mine'})
+                  })
+                } else {
+                  // 没有拥有信息,说明是新注册的用户 跳转去获取个人信息
+                  uni.navigateTo({
+                    url: '/pages/login/retrieveInfo?phoneNumber=' + this.info.phoneNumber
+                  })
+                }
+
+              })
+              .catch(e => {
                 uni.showToast({
-                  title: '登录成功',
+                  icon: 'none',
+                  title: '验证码错误',
                 })
-                uni.redirectTo({url: '/pages/index/index?curPage=mine'})
               })
-            }).catch(e => {
-              uni.showToast({
-                icon: 'none',
-                title: '用户名或密码错误',
-              })
-            })
           }
         })
       },
