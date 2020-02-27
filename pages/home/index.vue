@@ -23,6 +23,27 @@
         </view>
       </swiper-item>
     </swiper>
+    <view class="cu-card article" style="padding-bottom: 100px">
+      <view class="cu-item shadow" v-for="item in courses" :key="item.id" @tap="toDetail(item.id)">
+        <view class="title">
+          <view class="text-cut">{{item.name}}</view>
+        </view>
+        <view class="content">
+          <image :src="item.images[0]" mode="aspectFill"></image>
+          <view class="desc">
+            <view class="text-content">简介:{{item.description}}</view>
+            <view>
+              <view class="cu-tag bg-red light sm round">{{item.certificateName}}</view>
+              <view class="cu-tag bg-blue light sm round">{{item.certificateLicensor}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="padding flex justify-between">
+          <view>{{item.startTime}}</view>
+          <view class="text-red">￥{{item.price}}</view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -37,11 +58,25 @@
         CustomBar: this.CustomBar,
         curCity: uni.getStorageSync('curCity'),
         cardCur: 0,
-        sliders: []
+        sliders: [],
+        query: {
+          page: 0,
+          city: wx.getStorageSync('curCity'),
+        },
+        last: false,
+        courses: []
       };
     },
     mounted() {
       this.getSlider()
+      this.getCourse()
+      uni.$once('onReachBottom', (data) => {
+        if (!this.last) {
+          this.query.page++
+          this.getCourse()
+        }
+      })
+
     },
 
     computed: {
@@ -57,6 +92,15 @@
       }
     },
     methods: {
+      getCourse() {
+        api.get('/v1/courses', this.query).then(data => {
+          this.courses.push(...data.content)
+          this.last = data.last
+        })
+      },
+      toDetail(id) {
+        uni.navigateTo({url: '/pages/course/detail?id=' + id})
+      },
       chooseAddress() {
         uni.navigateTo({
           url: '/pages/home/cities',

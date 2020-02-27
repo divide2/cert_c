@@ -94,7 +94,14 @@
           uni.showToast({
             title: '报名成功'
           })
-          uni.redirectTo({url: '/pages/mine/list/list'})
+          uni.redirectTo({url: '/pages/mine/myCourse'})
+        }).catch(data=> {
+          if (data.statusCode === 409) {
+            uni.showToast({
+              title: '你已经报名了',
+              icon: 'none'
+            })
+          }
         })
       },
       toCourseUser() {

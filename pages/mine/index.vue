@@ -44,16 +44,16 @@
       </view>
       <view>
         <view class="cu-list menu margin-top">
-          <view class="cu-item arrow">
+          <view class="cu-item arrow" @tap="toMyCourse">
             <view class="content">
-              <text class="cuIcon-goodsfill text-green"></text>
-              <text class="text-grey">帮助和反馈</text>
+              <text class="cuIcon-read text-green"></text>
+              <text class="text-grey">我的课程</text>
             </view>
           </view>
           <view class="cu-item arrow">
             <view class="content">
-              <text class="cuIcon-goodsfill text-green"></text>
-              <text class="text-grey">联系客服</text>
+              <text class="cuIcon-question text-blue"></text>
+              <text class="text-grey">帮助</text>
             </view>
           </view>
         </view>
@@ -89,6 +89,9 @@
         uni.navigateTo({
           url: '/pages/mine/editSelf'
         })
+      },
+      toMyCourse() {
+        uni.navigateTo({url: '/pages/mine/myCourse'})
       }
     }
   }

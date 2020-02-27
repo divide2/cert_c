@@ -34,6 +34,10 @@
       "style": {}
     },
     {
+      "path": "pages/mine/myCourse",
+      "style": {}
+    },
+    {
       "path": "pages/discover/article",
       "style": {}
     },

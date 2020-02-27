@@ -1,5 +1,5 @@
 <template>
-  <view class="padding">
+  <view>
     <cu-custom bg-color="bg-blue" is-back>
       <block slot="content">手机号登录</block>
     </cu-custom>
