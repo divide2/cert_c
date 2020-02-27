@@ -49,6 +49,9 @@
         this.PageCur = option.pageCur
       }
     },
+    onReachBottom() {
+      uni.$emit('onReachBottom');
+    },
     methods: {
       NavChange: function (e) {
         this.PageCur = e.currentTarget.dataset.cur

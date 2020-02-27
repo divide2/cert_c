@@ -25,10 +25,9 @@
     },
     methods: {
       loginByWechatPhone(e) {
-        console.log(e)
       },
       toLoginByVerifyCode() {
-        wx.navigateTo({
+        uni.navigateTo({
           url: '/pages/login/verifyCodeLogin'
         })
       }

@@ -15,23 +15,39 @@
         <input type="text" placeholder="搜索课程" confirm-type="search"/>
       </view>
     </view>
+    <swiper class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000"
+            duration="500" @change="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
+      <swiper-item v-for="item in sliders" :key="item.id" :class="cardCur===index?'cur':''">
+        <view class="swiper-item" @tap="toLink(item.link)">
+          <image :src="item.image" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
 </template>
 
 <script>
+  import api from '@/api/api'
+
   export default {
     name: "home",
     data() {
       return {
         StatusBar: this.StatusBar,
         CustomBar: this.CustomBar,
-        curCity: uni.getStorageSync('curCity')
+        curCity: uni.getStorageSync('curCity'),
+        cardCur: 0,
+        sliders: []
       };
     },
+    mounted() {
+      this.getSlider()
+    },
+
     computed: {
       style() {
-        var StatusBar= this.StatusBar;
-        var CustomBar= this.CustomBar;
+        var StatusBar = this.StatusBar;
+        var CustomBar = this.CustomBar;
         var bgImage = this.bgImage;
         var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
         if (this.bgImage) {
@@ -42,10 +58,23 @@
     },
     methods: {
       chooseAddress() {
-        wx.navigateTo({
+        uni.navigateTo({
           url: '/pages/home/cities',
         })
-      }
+      },
+      toLink(link) {
+        uni.navigateTo({
+          url: link
+        })
+      },
+      getSlider() {
+        api.get('/v1/sliders').then(data => {
+          this.sliders = data.content
+        })
+      },
+      cardSwiper(e) {
+        this.cardCur = e.detail.current;
+      },
     }
   }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view style="padding-bottom: 80px">
     <cu-custom bg-color="bg-blue">
       <block slot="content">发现</block>
     </cu-custom>
@@ -29,15 +29,29 @@
     name: "discover",
     data() {
       return {
-        articles: []
+        articles: [],
+        last: false,
+        query: {
+          page: 0
+        }
       }
     },
     mounted() {
-      api.get('/v1/articles').then(data => {
-        this.articles.push(...data.content)
+      this.getArticles()
+      uni.$once('onReachBottom',  (data) =>{
+        if (!this.last) {
+          this.query.page++
+          this.getArticles();
+        }
       })
     },
     methods: {
+      getArticles() {
+        api.get('/v1/articles', this.query).then(data => {
+          this.articles.push(...data.content)
+          this.last = data.last
+        })
+      },
       toArticle(id) {
         wx.navigateTo({
           url: '/pages/discover/article?id=' + id
