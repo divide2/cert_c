@@ -1,7 +1,7 @@
 <template>
   <view>
     <mine v-if="PageCur==='mine'"></mine>
-    <course v-if="PageCur==='course'"></course>
+    <course :q="q" v-if="PageCur==='course'"></course>
     <discover v-if="PageCur==='discover'"></discover>
     <home v-if="PageCur==='home'"></home>
     <view class="cu-bar tabbar bg-white shadow foot">
@@ -41,12 +41,16 @@
       return {
         PageCur: 'home',
         discoverLast: false,
-        discoverPage: 0
+        discoverPage: 0,
+        q: ''
       }
     },
     onLoad(option) {
       if (option.pageCur) {
         this.PageCur = option.pageCur
+      }
+      if (option.q) {
+        this.q = option.q;
       }
     },
     onReachBottom() {

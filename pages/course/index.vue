@@ -3,7 +3,13 @@
     <cu-custom bg-color="bg-blue">
       <block slot="content">课程</block>
     </cu-custom>
-    <view class="nav padding-sm flex justify-around bg-white fixed" :style="'top:'+ customBar + 'px'">
+    <view class="cu-bar search bg-blue fixed" :style="'top:'+( customBar) + 'px'">
+      <view class="search-form round">
+        <text class="cuIcon-search"></text>
+        <input type="text" placeholder="搜索课程" v-model="qq" confirm-type="search" @confirm="search"/>
+      </view>
+    </view>
+    <view class="nav padding-sm flex justify-around bg-white fixed" :style="'top:'+( customBar + 55) + 'px'">
       <view @tap="changeSelect('typeSelect')">
         <text>{{typeName}}</text>
         <text :class="curSelect==='typeSelect'?'cuIcon-triangleupfill':'cuIcon-triangledownfill'"></text>
@@ -17,7 +23,7 @@
         <text :class="curSelect==='certSelect'?'cuIcon-triangleupfill':'cuIcon-triangledownfill'"></text>
       </view>
     </view>
-    <view class="fixed nav" v-if="curSelect==='typeSelect'" :style="'top:'+ (customBar +42) + 'px'">
+    <view class="fixed nav" v-if="curSelect==='typeSelect'" :style="'top:'+ (customBar + 42 + 55) + 'px'">
       <radio-group class="block" v-model="typeValue">
         <view class="cu-form-group" v-for="item in typeOptions" :key="item.value" @tap="checkTypeOption(item)">
           <view class="title">{{item.name}}</view>
@@ -25,7 +31,7 @@
         </view>
       </radio-group>
     </view>
-    <view class="fixed nav" v-if="curSelect==='feeSelect'" :style="'top:'+ (customBar +42) + 'px'">
+    <view class="fixed nav" v-if="curSelect==='feeSelect'" :style="'top:'+ (customBar +42 + 55) + 'px'">
       <radio-group class="block" v-model="feeValue">
         <view class="cu-form-group" v-for="item in feeOptions" :key="item.value" @tap="checkFeeOption(item)">
           <view class="title">{{item.name}}</view>
@@ -33,7 +39,7 @@
         </view>
       </radio-group>
     </view>
-    <view class="fixed nav" v-if="curSelect==='certSelect'" :style="'top:'+ (customBar +42) + 'px'">
+    <view class="fixed nav" v-if="curSelect==='certSelect'" :style="'top:'+ (customBar +42 + 55) + 'px'">
       <radio-group class="block" v-model="certValue">
         <view class="cu-form-group" v-for="item in certOptions" :key="item.value" @tap="checkCertOption(item)">
           <view class="title">{{item.name}}</view>
@@ -70,10 +76,17 @@
 
   export default {
     name: "course",
+    props: {
+      q: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         courses: [],
         last: false,
+        qq: '',
         query: {
           city: wx.getStorageSync('curCity'),
           page: 0
@@ -83,7 +96,6 @@
         typeValue: '',
         certValue: '',
         feeValue: '',
-
         typeOptions: [
           {
             name: '全部类型',
@@ -126,6 +138,7 @@
       }
     },
     mounted() {
+      this.qq = this.q;
       this.getCourse()
       uni.$once('onReachBottom', (data) => {
         if (!this.last) {
@@ -133,7 +146,6 @@
           this.getCourse()
         }
       })
-
     },
     computed: {
       typeName() {
@@ -151,6 +163,7 @@
         this.query.professionId = this.typeValue
         this.query.free = this.feeValue
         this.query.hasCert = this.certValue
+        this.query.name = this.qq
         api.get('/v1/courses', this.query).then(data => {
           this.courses.push(...data.content)
           this.last = data.last
@@ -184,6 +197,12 @@
         this.certValue = item.value
         this.curSelect = ''
         this.courses = []
+        this.query.page = 0
+        this.getCourse()
+      },
+      search() {
+        this.courses = []
+        this.last = false
         this.query.page = 0
         this.getCourse()
       }

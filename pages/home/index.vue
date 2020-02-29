@@ -12,7 +12,7 @@
     <view class="cu-bar search bg-blue">
       <view class="search-form round">
         <text class="cuIcon-search"></text>
-        <input type="text" placeholder="搜索课程" confirm-type="search"/>
+        <input type="text" placeholder="搜索课程" v-model="q" confirm-type="search" @confirm="search"/>
       </view>
     </view>
     <swiper class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000"
@@ -59,6 +59,7 @@
         curCity: uni.getStorageSync('curCity'),
         cardCur: 0,
         sliders: [],
+        q: '',
         query: {
           page: 0,
           city: wx.getStorageSync('curCity'),
@@ -119,6 +120,11 @@
       cardSwiper(e) {
         this.cardCur = e.detail.current;
       },
+      search() {
+        uni.redirectTo({
+          url: '/pages/index/index?pageCur=course&q='+this.q
+        })
+      }
     }
   }
 </script>
