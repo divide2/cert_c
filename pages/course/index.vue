@@ -47,7 +47,7 @@
         </view>
       </radio-group>
     </view>
-    <view class="cu-card article" style="padding-bottom: 100px;margin-top:42px">
+    <view class="cu-card article" style="padding-bottom: 100px;margin-top:97px">
       <view class="cu-item shadow" v-for="item in courses" :key="item.id" @tap="toDetail(item.id)">
         <view class="title">
           <view class="text-cut">{{item.name}}</view>

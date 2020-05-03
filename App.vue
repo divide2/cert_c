@@ -1,7 +1,12 @@
 <script>
 	import Vue from 'vue'
-  import api from '@/api/api'
+	import api from '@/api/api'
 	export default {
+		globalData: {
+			// baseUrl : 'http://120.77.153.225:8080'
+			// baseUrl: 'https://www.zhongxingfuwu.com'
+			baseUrl: 'http://localhost'
+		},
 		onLaunch: function() {
 			uni.getSystemInfo({
 				success: function(e) {
@@ -27,17 +32,20 @@
 					// #endif
 				}
 			})
-      wx.getLocation({
-        type: 'gcj02',
-        success: function (res) {
-          const latitude = res.latitude
-          const longitude = res.longitude
-          api.get('/v1/address/city/resolve', { latitude: latitude, longitude: longitude }).then(res => {
-            wx.setStorageSync('curCity', res.city)
-            wx.setStorageSync('originCity', res.city);
-          })
-        }
-      })
+			wx.getLocation({
+				type: 'gcj02',
+				success: function(res) {
+					const latitude = res.latitude
+					const longitude = res.longitude
+					api.get('/v1/address/city/resolve', {
+						latitude: latitude,
+						longitude: longitude
+					}).then(res => {
+						wx.setStorageSync('curCity', res.city)
+						wx.setStorageSync('originCity', res.city);
+					})
+				}
+			})
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',

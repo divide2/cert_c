@@ -49,6 +49,10 @@
     {
       "path": "pages/course/users",
       "style": {}
+    },
+    {
+      "path": "pages/org/index",
+      "style": {}
     }
   ],
   "globalStyle": {

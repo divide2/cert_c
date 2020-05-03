@@ -21,7 +21,7 @@
         <view class="flex justify-between padding">
           <view class="text-bold text-red">￥{{course.price}}</view>
           <view class="text-bold">{{course.certificateId?course.certificateName: '无证书'}}</view>
-          <view class="text-bold">{{course.createUserName}}</view>
+          <view class="text-bold text-blue" @tap="toOrgInfo(course.orgId)">{{course.orgName}}</view>
         </view>
         <view>
           <view class="flex align-center padding">
@@ -68,7 +68,8 @@
           price: '',
           certificateId: '',
           certificateName: '',
-          createUserName: '',
+          orgId: 0,
+          orgName: '',
           startTime: '',
           endTime: '',
           address: '',
@@ -107,6 +108,11 @@
       toCourseUser() {
         uni.navigateTo({
           url: '/pages/course/users?id=' + this.id
+        })
+      },
+      toOrgInfo(id) {
+        uni.navigateTo({
+          url: '/pages/org/index?id='+id
         })
       }
     }
