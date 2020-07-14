@@ -3,8 +3,6 @@ const request = (url, options) => {
   return new Promise((resolve, reject) => {
 	  const app = getApp()
     let baseUrl = app && app.globalData && app.globalData.baseUrl
-	console.log(app)
-	console.log(app.globalData)
     uni.request({
       url: `${baseUrl}${url}`,
       method: options.method,
@@ -31,7 +29,7 @@ const request = (url, options) => {
           //token过期需重新登录
           uni.removeStorageSync('userInfo')
           uni.redirectTo({
-            url: '/pages/login/login'
+            url: '/pages/login/index'
           })
         }
         reject(error)

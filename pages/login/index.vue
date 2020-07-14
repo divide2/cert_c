@@ -1,6 +1,6 @@
 <template>
   <view>
-    <cu-custom bg-color="bg-blue" is-back>
+    <cu-custom bg-color="bg-blue">
       <block slot="content">登录</block>
     </cu-custom>
     <view class="text-center padding" style="font-size: 30px">证书帮</view>

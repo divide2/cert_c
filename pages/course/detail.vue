@@ -28,7 +28,7 @@
             <text class="cuIcon-timefill text-orange margin-right-sm"></text>
             <text class="">{{course.startTime + '~' + course.endTime}}</text>
           </view>
-          <view class="flex align-center padding">
+          <view class="flex align-center padding" @tap="toLocation(course)">
             <text class="cuIcon-locationfill text-orange margin-right-sm "></text>
             <text>{{course.address + ' ' + course.addressDetail}}</text>
           </view>
@@ -51,6 +51,7 @@
       </view>-->
       <view class="bg-orange submit"  @tap="join">立即报名</view>
     </view>
+
   </view>
 </template>
 
@@ -89,6 +90,16 @@
         api.get(`/v1/org/courses/${this.id}`).then(data => {
           this.course = data
         })
+      },
+      toLocation(course) {
+        uni.openLocation({
+          latitude: course.latitude,
+          longitude: course.longitude,
+          success: function () {
+            console.log('success');
+          }
+        });
+
       },
       join() {
         api.post(`/v1/user/join/${this.id}`).then(data => {

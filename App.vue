@@ -5,7 +5,7 @@
 		globalData: {
 			// baseUrl : 'http://120.77.153.225:8080'
 			// baseUrl: 'https://www.zhongxingfuwu.com'
-			baseUrl: 'http://localhost'
+			baseUrl: 'http://localhost:8080'
 		},
 		onLaunch: function() {
 			uni.getSystemInfo({

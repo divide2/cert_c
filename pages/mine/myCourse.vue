@@ -3,6 +3,7 @@
     <cu-custom bg-color="bg-blue" is-back>
       <block slot="content">我的课程</block>
     </cu-custom>
+    <view class="text-center padding" v-if="courses.length === 0">你还没有报名任何课程喔</view>
     <view class="cu-card article" style="padding-bottom: 100px">
       <view class="cu-item shadow" v-for="item in courses" :key="item.id" @tap="toDetail(item.id)">
         <view class="title">

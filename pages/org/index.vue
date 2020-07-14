@@ -1,7 +1,7 @@
 <template>
   <view>
     <cu-custom bg-color="bg-blue" is-back>
-      <block slot="content">{{org.username}}</block>
+      <block slot="content">{{org.name}}</block>
     </cu-custom>
     <view class="radius shadow-warp bg-white">
       <view class="cu-list menu">
@@ -16,23 +16,42 @@
                   </view>
                   <view class="base-info margin-left">
                     <view>
-                      <text class="text-bold">{{org.username}}</text>
+                      <text class="text-bold">{{org.name}}</text>
                     </view>
-                  </view>
-                </view>
-                <view class="flex margin-top">
-                  <view class="margin-left">
-                    <text class="margin-sm">关注</text>
-                    <text>12</text>
                   </view>
                 </view>
               </view>
             </view>
-            <button class="cu-btn round sm bg-blue shadow">
+            <button v-if="org.isFavorite" class="cu-btn round sm bg-grey shadow" @tap="favorite">
               <text class="cuIcon-likefill margin-right-xs"></text>
+              取消关注
+            </button>
+            <button v-else class="cu-btn round sm bg-blue shadow" @tap="favorite">
+              <text class="cuIcon-likefill margin-right-xs text-red"></text>
               关注
             </button>
           </view>
+        </view>
+      </view>
+    </view>
+    <view class="cu-card article" style="padding-bottom: 100px">
+      <view class="cu-item shadow" v-for="item in courses" :key="item.id" @tap="toDetail(item.id)">
+        <view class="title">
+          <view class="text-cut">{{item.name}}</view>
+        </view>
+        <view class="content">
+          <image :src="item.images[0]" mode="aspectFill"></image>
+          <view class="desc">
+            <view class="text-content">简介:{{item.description}}</view>
+            <view>
+              <view class="cu-tag bg-red light sm round">{{item.certificateName}}</view>
+              <view class="cu-tag bg-blue light sm round">{{item.certificateLicensor}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="padding flex justify-between">
+          <view>{{item.startTime}}</view>
+          <view class="text-red">￥{{item.price}}</view>
         </view>
       </view>
     </view>
@@ -47,6 +66,11 @@
     data() {
       return {
         id: '',
+        courses: [],
+        query: {
+          page: 0
+        },
+        last: false,
         org: {
           avatar: '',
           username: '',
@@ -57,12 +81,33 @@
     onLoad(option) {
       this.id = option.id
       this.getOrg()
+      this.getCourse()
     },
     methods: {
       getOrg() {
-        api.get('/v1/org/' + this.id).then(data => {
+        api.get('/v1/user/org/' + this.id).then(data => {
           this.org = data
         });
+      },
+      favorite() {
+        api.post('/v1/user/toggle/favorites/org/'+this.id).then(data => {
+          this.getOrg()
+        })
+      },
+      getCourse() {
+        api.get(`/v1/org/${this.id}/courses`,this.query).then(data => {
+          this.courses.push(...data.content)
+          this.last = data.last
+        })
+      },
+      toDetail(id) {
+        uni.navigateTo({url: '/pages/course/detail?id=' + id})
+      },
+    },
+    onReachBottom() {
+      if (!this.last) {
+        this.query.page++
+        this.getCourse()
       }
     }
   }

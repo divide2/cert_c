@@ -38,6 +38,10 @@
       "style": {}
     },
     {
+      "path": "pages/mine/favorite",
+      "style": {}
+    },
+    {
       "path": "pages/discover/article",
       "style": {}
     },
