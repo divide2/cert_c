@@ -14,9 +14,9 @@ const request = (url, options) => {
         if (req.statusCode >= 200 && req.statusCode < 300) {
           resolve(req.data)
         } else if (req.statusCode === 403) {
-          //token过期需重新登录
+          // token过期需重新登录
           uni.removeStorageSync('userInfo')
-          uni.redirectTo({
+          uni.navigateTo({
             url: '/pages/login/index'
           })
           reject(req)
@@ -26,9 +26,9 @@ const request = (url, options) => {
       },
       fail(error) {
         if (error.statusCode === 403) {
-          //token过期需重新登录
+          // token过期需重新登录
           uni.removeStorageSync('userInfo')
-          uni.redirectTo({
+          uni.navigateTo({
             url: '/pages/login/index'
           })
         }

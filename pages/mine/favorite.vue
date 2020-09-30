@@ -5,7 +5,7 @@
     </cu-custom>
     <view class="text-center padding" v-if="favorites.length === 0">你还没有关注的人</view>
     <view class="cu-list menu-avatar sm-border">
-      <view class="cu-item" v-for="item in favorites" :key="item.id">
+      <view class="cu-item" v-for="item in favorites" :key="item.id" @tap="toOrg(item.org.id)">
         <view class="cu-avatar round lg"
               :style="'background-image:url('+item.org.avatar+');'"></view>
         <view class="content">
@@ -43,6 +43,11 @@
       toggleFavorite(fa) {
         api.post('/v1/user/toggle/favorites/org/' + fa.org.id).then(data => {
           fa.isFavorite = !fa.isFavorite
+        })
+      },
+      toOrg(orgId) {
+        uni.navigateTo({
+          url: '/pages/org/index?id='+orgId
         })
       }
     }

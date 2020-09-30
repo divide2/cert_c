@@ -17,11 +17,11 @@
       </view>
     </form>
     <button class="cu-btn block bg-blue margin-top lg" @tap="login">登录</button>
-    <view class="padding">已同意并阅读
-      <text class="text-blue">《用户服务协议》</text>
-      、
-      <text class="text-blue">《隐私权政策》</text>
-    </view>
+    <!--    <view class="padding">已同意并阅读-->
+    <!--      <text class="text-blue">《用户服务协议》</text>-->
+    <!--      、-->
+    <!--      <text class="text-blue">《隐私权政策》</text>-->
+    <!--    </view>-->
   </view>
 
 </template>

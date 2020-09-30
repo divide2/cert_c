@@ -102,19 +102,28 @@
 
       },
       join() {
-        api.post(`/v1/user/join/${this.id}`).then(data => {
-          uni.showToast({
-            title: '报名成功'
-          })
-          uni.redirectTo({url: '/pages/mine/myCourse'})
-        }).catch(data=> {
-          if (data.statusCode === 409) {
-            uni.showToast({
-              title: '你已经报名了',
-              icon: 'none'
-            })
+        uni.showModal({
+          title: '报名',
+          content: '确认报名么？',
+          success: res => {
+            if (res.confirm) {
+              api.post(`/v1/user/join/${this.id}`).then(data => {
+                uni.showToast({
+                  title: '报名成功'
+                })
+                uni.redirectTo({url: '/pages/mine/myCourse'})
+              }).catch(data=> {
+                if (data.statusCode === 409) {
+                  uni.showToast({
+                    title: '你已经报名了',
+                    icon: 'none'
+                  })
+                }
+              })
+            }
           }
         })
+
       },
       toCourseUser() {
         uni.navigateTo({

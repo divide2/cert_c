@@ -50,12 +50,12 @@
               <text class="text-grey">我的课程</text>
             </view>
           </view>
-          <view class="cu-item arrow">
-            <view class="content">
-              <text class="cuIcon-question text-blue"></text>
-              <text class="text-grey">帮助</text>
-            </view>
-          </view>
+          <!--          <view class="cu-item arrow">-->
+          <!--            <view class="content">-->
+          <!--              <text class="cuIcon-question text-blue"></text>-->
+          <!--              <text class="text-grey">帮助</text>-->
+          <!--            </view>-->
+          <!--          </view>-->
         </view>
         <view class="cu-list menu margin-top" @tap="logout">
           <view class="cu-item arrow">
@@ -71,7 +71,6 @@
 </template>
 
 <script>
-  import api from '@/api/api'
 
   export default {
     name: "mine",
@@ -81,9 +80,9 @@
       }
     },
     mounted() {
-      api.get('/v1/user').then(data => {
-        this.userInfo = data
-      })
+      // api.get('/v1/user').then(data => {
+      //   this.userInfo = data
+      // })
     },
     methods: {
       logout() {

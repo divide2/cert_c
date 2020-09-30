@@ -2,7 +2,7 @@
 
   <view>
     <cu-custom bg-color="bg-blue">
-      <block slot="content">证书帮</block>
+      <block slot="content">职业资格考证平台</block>
     </cu-custom>
     <view class="bg-blue padding-left" style="font-size: 16px;border: none" @tap="chooseAddress">
       <text class="cuIcon-locationfill"></text>

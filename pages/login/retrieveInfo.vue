@@ -3,7 +3,7 @@
     <cu-custom bg-color="bg-blue">
       <block slot="content">授权个人信息</block>
     </cu-custom>
-    <view class="text-center padding" style="font-size: 30px">证书帮</view>
+    <view class="text-center padding" style="font-size: 30px">职业资格考证平台</view>
     <view class="text-center padding">申请获取你的微信的基本信息</view>
     <button class="cu-btn block bg-blue margin-top lg" open-type="getUserInfo" @getuserinfo="retrieveInfo">
       获取基本信息
